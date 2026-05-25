@@ -15,13 +15,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public')); // This tells the server where the HTML files are
 
-
-// --- API ROUTES
+// --- API ROUTES ---
 app.use('/api/g42', require('./routes/G42_studentRoutes'));
-// app.use('/api/g43', require('./routes/G43_roomRoutes'));
+app.use('/api/g43', require('./routes/G43_roomRoutes'));       // Uncommented!
 app.use('/api/g44', require('./routes/G44_allotmentRoutes'));
 app.use('/api/g45', require('./routes/G45_paymentRoutes')); 
-// app.use('/api/g46', require('./routes/G46_complaintRoutes'));
+app.use('/api/g46', require('./routes/G46_complaintRoutes'));  // Uncommented!
 
 // Default route
 app.get('/', (req, res) => {
@@ -36,25 +35,23 @@ const startProject = async () => {
         // ONLY after DB is connected, we start the server
         const PORT = process.env.PORT || 3000;
         app.listen(PORT, '0.0.0.0', () => {
-            console.log(`🚀 Server running at http://localhost:${PORT}`);
+            console.log(`Server running at http://localhost:${PORT}`);
         });
     } catch (err) {
-        console.error("❌ CRITICAL: Server failed to start due to DB issues.");
+        console.error("CRITICAL: Server failed to start due to DB issues.");
         process.exit(1);
     }
 };
 
 startProject();
 
-// ==========================================
-// HUTDOWN
-// ==========================================
+// SHUTDOWN
 process.on('SIGINT', async () => {
-    console.log("🛑 Shutting down server...");
+    console.log("Shutting down server...");
     const mongoose = require('mongoose');
     if(mongoose) {
         await mongoose.connection.close();
-        console.log("✅ MongoDB Connection closed.");
+        console.log("MongoDB Connection closed.");
     }
     process.exit(0);
 });

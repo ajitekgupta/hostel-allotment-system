@@ -4,8 +4,9 @@ document.addEventListener("DOMContentLoaded", function() {
     // 1. Get the current page name
     const currentPage = window.location.pathname.split("/").pop() || "index.html";
     
-    // 2. Check the user's role from localStorage
+    // 2. Check the user's role and ID from localStorage
     const userRole = localStorage.getItem('userRole');
+    const studentId = localStorage.getItem('studentId'); // Updated to match login.html
 
     // ==========================================
     // 🛡️ SECURITY GATE (Module Specific)
@@ -38,33 +39,47 @@ document.addEventListener("DOMContentLoaded", function() {
         <a href="G46_complaints.html" class="${currentPage === 'G46_complaints.html' ? 'active' : ''}">Maintenance</a>
     `;
 
-    // The Logout Button (Only visible if logged in)
-    const logoutBtn = userRole ? `
-        <a href="#" onclick="logoutUser()" style="color: #fca5a5; margin-left: 25px; font-weight: bold;">Logout</a>
-    ` : '';
+    // ==========================================
+    // 👤 DYNAMIC AUTH SECTION
+    // ==========================================
+    let authSection = '';
+    if (userRole) {
+        // Show who is logged in + Logout button
+        const displayName = userRole === 'admin' ? 'Warden (Admin)' : `Student: ${studentId}`;
+        authSection = `
+            <div class="nav-auth" style="margin-left: auto; display: flex; align-items: center; gap: 15px;">
+                <span style="font-size: 0.9rem; font-weight: 600; color: #64748b;">${displayName}</span>
+                <button class="btn btn-primary" onclick="logoutUser()" style="padding: 6px 15px; background: #ef4444; border: none;">Logout</button>
+            </div>
+        `;
+    } else {
+        // Show Sign In button if a guest
+        authSection = `
+            <div class="nav-auth" style="margin-left: auto;">
+                <button class="btn btn-primary" onclick="window.location.href='login.html'" style="padding: 6px 15px;">Sign In</button>
+            </div>
+        `;
+    }
 
     // ==========================================
     // 🏗️ BUILD AND INJECT NAVBAR
     // ==========================================
+    // I added some inline flex styles to ensure the authSection stays on the right side
     const navbarHTML = `
-    <nav class="navbar">
-        <div class="nav-content">
-            <div class="logo">LNMIIT Hostel</div>
-            <div class="links">
+    <nav class="navbar" style="display: flex; align-items: center;">
+        <div class="nav-content" style="display: flex; width: 100%; align-items: center;">
+            <div class="logo" style="margin-right: 30px;">LNMIIT Hostel</div>
+            <div class="links" style="display: flex; gap: 15px;">
                 
-                <!-- If Student, hide Admin Links. Otherwise, show them. -->
                 ${isStudent ? '' : adminLinks}
                 
-                <!-- Fees Link: If not logged in, clicking this sends them to Login -->
                 <a href="${userRole ? 'G45_payments.html' : 'login.html'}" class="${currentPage === 'G45_payments.html' ? 'active' : ''}">Fees</a>
                 
-                <!-- If Student, hide Maintenance (unless G46 decides to add student logic later) -->
                 ${isStudent ? '' : maintenanceLink}
                 
-                <!-- Display Logout button if applicable -->
-                ${logoutBtn}
-
             </div>
+            
+            ${authSection}
         </div>
     </nav>
     `;
@@ -78,7 +93,8 @@ document.addEventListener("DOMContentLoaded", function() {
 // ==========================================
 function logoutUser() {
     localStorage.removeItem('userRole');
-    localStorage.removeItem('activeStudentId');
+    localStorage.removeItem('studentId'); // Updated to match your new login logic
+    
     // Send them back to the public dashboard
     window.location.href = 'index.html'; 
 }

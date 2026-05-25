@@ -68,14 +68,12 @@
         <div class="logo">LNMIIT HOSTEL</div>
         <p class="subtitle">Select your portal to continue</p>
 
-        <!-- Admin Login -->
         <button class="btn btn-primary login-btn" onclick="loginAs('admin')">
             🔒 Login as Warden (Admin)
         </button>
 
         <div class="divider">OR</div>
 
-        <!-- Student Login -->
         <div style="text-align: left;">
             <label style="font-size: 0.85rem; color: var(--text-light); font-weight: 600; margin-bottom: 8px; display: block;">STUDENT LOGIN</label>
             <input type="text" id="loginStudentId" class="student-input" placeholder="Enter Roll No (e.g. 24UCS001)">
@@ -97,14 +95,14 @@
         function loginAs(role) {
             if (role === 'admin') {
                 localStorage.setItem('userRole', 'admin');
-                localStorage.removeItem('activeStudentId'); 
+                localStorage.removeItem('studentId'); // Fixed key here
                 window.location.href = 'index.html';
             } else if (role === 'student') {
                 const id = document.getElementById('loginStudentId').value.trim().toUpperCase();
                 if (!id) return alert("Please enter your Student ID.");
                 
                 localStorage.setItem('userRole', 'student');
-                localStorage.setItem('activeStudentId', id);
+                localStorage.setItem('studentId', id); // Fixed key here
                 window.location.href = 'G45_payments.html'; 
             }
         }

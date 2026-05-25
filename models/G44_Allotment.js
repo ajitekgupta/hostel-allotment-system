@@ -1,21 +1,32 @@
-// Purpose: Defines the database schema (data structure) for this module.
 const mongoose = require('mongoose');
 
 const allotmentSchema = new mongoose.Schema({
-    // The Universal Key linking to Group 42's student data
     studentId: {
         type: String,
         required: true,
-        unique: true // Ensures a student is only allotted one room at a time
+        unique: true
     },
-    // Links to Group 43's room data
     roomNumber: {
         type: String,
         required: true
     },
-    // For your group's specific year-based allotment logic
+    block: {
+        type: String,
+        required: true,
+        enum: ['BH1', 'BH2', 'BH3', 'BH4', 'BH5', 'GH1']
+    },
+    roomType: {
+        type: String,
+        required: true,
+        enum: ['Single', 'Double']
+    },
+    acType: {
+        type: String,
+        required: true,
+        enum: ['AC', 'Non-AC']
+    },
     academicYear: {
-        type: String, 
+        type: String,
         required: true,
         enum: ['1st Year', '2nd Year', '3rd Year', '4th Year']
     },

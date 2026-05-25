@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance Portal | LNMIIT</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <script src="js/navbar.js"></script>
+
+    <div class="container">
+        <div class="header">
+            <h1>Maintenance Portal</h1>
+            <p class="subtitle">Log and track hostel repair requests.</p>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h3>File a Complaint</h3>
+                <div style="margin-top: 15px;">
+                    <label style="display:block; margin-bottom:5px;">Student ID</label>
+                    <input type="text" id="studentId" class="student-input" placeholder="e.g. 24UCS001" style="width: 100%; padding: 10px; margin-bottom: 15px;" required>
+
+                    <label style="display:block; margin-bottom:5px;">Issue Type</label>
+                    <select id="issueType" class="student-input" style="width: 100%; padding: 10px; margin-bottom: 15px;">
+                        <option value="Electrical">Electrical (Lights, Fan, Plugs)</option>
+                        <option value="Plumbing">Plumbing (Washroom, Leaks)</option>
+                        <option value="Furniture">Furniture (Bed, Desk, Almirah)</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <label style="display:block; margin-bottom:5px;">Description</label>
+                    <textarea id="description" class="student-input" rows="3" style="width: 100%; padding: 10px; margin-bottom: 15px;" required></textarea>
+
+                    <button class="btn btn-primary" style="width: 100%;" onclick="submitComplaint()">Submit Request</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Recent Requests</h3>
+                <div id="complaintList" style="margin-top: 15px;">
+                    <p>Loading complaints...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="js/G46_complaints.js"></script>
+</body>
+</html>

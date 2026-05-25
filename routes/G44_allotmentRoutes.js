@@ -1,13 +1,20 @@
-// Purpose: The "Traffic Controller"—it maps web addresses (URLs) to the correct function in the controller.
+// Purpose: maps URLs to the correct controller functions.
 
 const express = require('express');
 const router = express.Router();
 
-// Import the "Brain" you just created
 const allotmentController = require('../controllers/G44_allotmentCtrl');
 
-// The Traffic Cop: Pointing URLs to the right controller functions
+// GET  - Fetch all allotments 
 router.get('/allotments', allotmentController.getAllotments);
+
+// POST - Assign a room 
 router.post('/assign', allotmentController.assignRoom);
+
+// PUT  - Transfer 
+router.put('/transfer', allotmentController.transferRoom);
+
+// PUT  - Vacate
+router.put('/vacate', allotmentController.vacateRoom);
 
 module.exports = router;
